@@ -1,3 +1,5 @@
+net ninjas REST api tutorial
+lesson 1
 What is an api?
 ex: to interact with a TV, we use a remote
 to interact with Youtube applicaiton, we use an interface (endpoints) to interact with it.
@@ -48,5 +50,53 @@ if you mess up the url it will show a 404 status code
 net ninjas tutorial will go over
 Node.js express mongoDB and postman. then make a simple front-end to interact with it
 
+lesson 2
+setting up node and mongoDB
 mongoDB + express makes up our api
 express is used to handle requests
+
+lesson 3
+http methods and what they are
+
+for this application, we are making a database that contains ninjas and the front-end is used to see
+if the ninjas are available for hiring within a certain radius of a longitude and latitude
+
+The database in mongoDB will contain the ninjas information
+express will handle the http requests
+the front end will make the http requests such as:
+1. create a new ninja and store it POST
+2. read/retrieve ninja data GET
+3. update existing ninja PUT
+4. delete ninja from DB DELETE
+aka CRUD
+
+each of these http requests need an endpoints
+for the GET and POST requests itll look like http://www.ninjago.com/api/ninjas
+for the PUT or DELETE itll look like http://www.ninjago.com/api/ninjas/id because you must
+modify the specific ninja based on its id
+
+example of POST request using jQuery
+$.ajax({
+  method:"POST",
+  url: 'http://www.ninjago.com/api/ninjas',
+  data:{name:'john', rank:'black belt'}
+})
+
+lesson 4
+setting up an express app
+
+const express = require('express');
+
+// set up express app
+const app = express();
+
+// listen for requests
+// in this case heroku might give us a port number so we can put that in our env file
+// if not it defaults to 4000
+app.listen(process.env.port || 4000, function () {
+  console.log('ready to accept requests');
+});
+
+at the end, set up a server..
+
+lesson 5 handling requests in express
