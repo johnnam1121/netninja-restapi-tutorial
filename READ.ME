@@ -1,0 +1,52 @@
+What is an api?
+ex: to interact with a TV, we use a remote
+to interact with Youtube applicaiton, we use an interface (endpoints) to interact with it.
+That is an api
+
+rest
+architectual style of the web
+guideline by which we can structure and create apis
+
+****properties of REST APIs:****
+
+1.
+they make use of resource based URLs - fyi these are fake urls
+these are essentially GET requests
+webpage -
+ex: http://www.football.com/scores
+ex: http://www.football.com/teams/arsenal
+this makes it so we can see the data on our browser
+
+JSON -
+http://www.football.com/api/scores
+http://www.football.com/api/teams/arsenal
+this makes it so we can see and use the data in our program and do something with it
+this can return something like:
+"scores":{
+  "team":"arsenal",
+  "for":10,
+  "against":50,
+  "wins":10,
+  "loses":37,
+}
+
+2.
+they make use og HTTP methods
+GET retrieve
+POST send data
+PUT update data
+DELETE
+
+3. they make use of http status codes
+ex: 200 means ok
+404 means resource not found
+500 means server error
+
+one way to test this is use the console. if you search a valid youtube video url, it will show a 200
+if you mess up the url it will show a 404 status code
+
+net ninjas tutorial will go over
+Node.js express mongoDB and postman. then make a simple front-end to interact with it
+
+mongoDB + express makes up our api
+express is used to handle requests
