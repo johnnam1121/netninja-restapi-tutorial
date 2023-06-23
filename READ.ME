@@ -100,3 +100,138 @@ app.listen(process.env.port || 4000, function () {
 at the end, set up a server..
 
 lesson 5 handling requests in express
+app.get('/', function (req, res) {
+  // when you go to http://localhost:4000/ it notices that there was a get request and console logs GET request
+  console.log('GET request');
+  // at the moment the website is doing nothing and waiting for a response
+  // the req parameter contains information about the request while the
+  // res parameter contains info about the response like the status code or sending some data
+  // res.end();
+  // // now when we go to localhost:4000, it stops trying to load something and isnt spinning around
+  res.send({ name: 'John' });
+  // now instead of just ending the get request, it now send back some data. John
+});
+
+lesson 6 creating routes
+npm i nodemon --save-dev
+--save-dev makes it a development tool and NOT a dependency
+
+// setting up routes inside of api.js
+// get list of ninjas from database
+router.get('/ninjas', function (req, res) {
+  res.send({ type: "GET" })
+});
+
+// add a new ninja to the db
+router.post('/ninjas', function (req, res) {
+  res.send({ type: "POST" })
+});
+
+// update a ninja
+router.put('/ninjas/id', function (req, res) {
+  res.send({ type: "PUT" })
+});
+
+// delete a ninja
+router.delete('/ninjas/id', function (req, res) {
+  res.send({ type: "DELETE" })
+});
+
+// exporting the router so it can be used in index.js
+module.exports = router;
+
+setting up the server
+const express = require('express');
+//const routes = require('./routes/api'); the import is no longer needed after line 39
+
+// set up express app
+const app = express();
+
+// after creating the routes in another file, it is imported then app.use now uses it
+// app.use('/api', routes); // the '/api' paramenter basically adds api in front of every route
+// so that we do not have to add the /api to EVERY single route.
+
+// this is the exact same thing as above but removes the need for the import
+app.use('/api', require('./routes/api'));
+
+app.listen(process.env.port || 4000, function () {
+  console.log('ready to accept requests');
+});
+
+The ":" symbol in the route path '/ninjas/:id' is used to define a route parameter in
+the Express.js framework. It allows you to create dynamic routes where the
+value after the ":" can be different for each request.
+
+
+lesson 6.5 using postman to test routes other than the GET route
+GET route is the only one we can use to test routes using the browser
+for the others, we must use other services
+
+go to postman website. depending on computer make sure to install desktop agent so that we can
+make http requests to localhost dev servers
+
+lesson 7
+handling post requests
+middleware is the code tha runs in the middle of a request and response.
+req -> middleware(inside of the express app) -> response
+npm i body-parser --save which is middleware
+
+app.use(bodyParser.json());
+added this code to index.js to initialize the bodyParser. this is used to mess with json
+console.log(req.body);
+added this to the post route in the api.js to console.log the post request made on postman.
+initially it was displaying an empty object but after going to postman and selecting
+json under text, the issue was fixed.
+
+now we can send data back
+  res.send({
+    type: "POST",
+    obj: req.body,
+  })
+
+lesson 8 models and scheamas
+models represent a collection of data
+ex: user model represent a collection of users
+ninja model represent a collection of ninjas
+
+schemas define the structure of our data objects
+
+mongoDB collection - ninjas
+ninja 1
+ninja 2
+ninja 3
+
+ninja 1 might look like this schema
+{
+  name: string
+  rank: string
+  available: boolean
+}
+
+installing mongoose to work with the data from mongoDB
+made a new folder called models and in it we put the ninjas.js file
+
+created a ninja.js file modelconst mongoogse = require('mongoose');
+const Schema = mongoogse.Schema;
+
+// create ninja schema and model
+const NinjaSchema = new Schema({
+  name: {
+    type: String,
+    required: [true, 'Name is required'], // the second paramenter is some feedback if something goes wrong
+  },
+  rank: {
+    type: String,
+  },
+  available: {
+    type: Boolean,
+    default: false,
+  },
+  // add in geo location later. ex lat long
+});
+
+const Ninja = mongoogse.model('ninja', NinjaSchema);
+// creates a model called ninja using the NinjaSchema
+
+module.exports = Ninja;
+
